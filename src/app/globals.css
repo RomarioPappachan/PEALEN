@@ -25,6 +25,10 @@
   scrollbar-width: none;
 }
 
+.scrollbar-visible {
+  scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
