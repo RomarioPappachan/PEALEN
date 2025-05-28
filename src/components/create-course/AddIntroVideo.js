@@ -112,7 +112,7 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
             <div>
               <label
                 htmlFor={`videoThumbnail-${videoIndex}`}
-                className="text-base text-[var(--text-secondary)] font-semibold"
+                className="text-base text-[var(--text-secondary)] font-semibold cursor-pointer"
               >
                 {video?.videoThumbnail?.name ? (
                   <div className="w-full h-32 rounded-2xl border border-[var(--border-primary)] overflow-hidden flex justify-center items-center">

@@ -169,7 +169,7 @@ export default function AddCourseDetails({ onNext }) {
                             e.preventDefault();
                             handleDeletePoint(index);
                           }}
-                          className="absolute right-0 top-0 text-red-500 hover:text-red-700"
+                          className="absolute right-0 top-0 size-6 bg-[var(--text-secondary)] text-white hover:bg-red-400 rounded-full flex justify-center items-center cursor-pointer"
                           title="Delete"
                           type="button"
                         >
@@ -289,7 +289,7 @@ export default function AddCourseDetails({ onNext }) {
                             e.preventDefault();
                             handleDeleteFaculty(index);
                           }}
-                          className="size-6 bg-[var(--text-secondary)] text-white hover:text-red-700 rounded-full flex justify-center items-center"
+                          className="ms-1 size-6 bg-[var(--text-secondary)] text-white hover:bg-red-400 rounded-full flex justify-center items-center cursor-pointer"
                           title="Delete"
                           type="button"
                         >

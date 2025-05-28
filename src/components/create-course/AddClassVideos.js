@@ -3,22 +3,31 @@ import React, { useState } from "react";
 import { LuPlus, LuMinus } from "react-icons/lu";
 import { LiaTrashAlt } from "react-icons/lia";
 import { useAddCourseVideosStore } from "@/store/addCourseVideosStore";
+import AddVideoSteps from "./AddVideoSteps";
+import AddQuestionsAndChallenge from "./AddQuestionsAndChallenge";
+import ClassVideo from "./ClassVideo";
+import DemoVideo from "./DemoVideo";
+import AnimationVideo from "./AnimationVideo";
 
 export default function AddClassVideos({ videoIndex, video }) {
   const { addClassVideoTitle, addClassVideoThumbnail, removeClassVideo } =
     useAddCourseVideosStore();
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const [isAddClassVideoOpen, setIsAddClassVideoOpen] = useState(false);
+  const [isAddDemoVideoOpen, setIsAddDemoVideoOpen] = useState(false);
+  const [isAddAnimationOpen, setIsAddAnimationOpen] = useState(false);
+  const [isAddTranscriptOpen, setIsAddTranscriptOpen] = useState(false);
+  const [addStepsOpen, setAddStepOpen] = useState(false);
+  const [addQuestionsOpen, setAddQuestionsOpen] = useState(false);
+
   // const [previewImgUrl, setPreviewImgUrl] = useState("");
 
   const handleVideoThumbnail = (e, videoIndex) => {
     const file = e.target.files[0];
     // console.log(file);
-
     // const imageUrl = URL.createObjectURL(file);
-
     addClassVideoThumbnail(file, videoIndex); // in the store for form submission
-
     // setPreviewImgUrl(imageUrl); // for display
   };
 
@@ -87,42 +96,62 @@ export default function AddClassVideos({ videoIndex, video }) {
 
               <div className="mt-7 flex gap-3.5">
                 <div className="flex-1 grid grid-cols-3 gap-5 gap-y-3">
-                  <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
+                  <button
+                    type="button"
+                    className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
+                    onClick={() => setIsAddClassVideoOpen(true)}
+                  >
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Add Class Video
                     </span>
-                  </div>
+                  </button>
                   <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Transcription (SRT)
                     </span>
                   </div>
-                  <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
+                  <button
+                    type="button"
+                    className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
+                    onClick={() => setIsAddDemoVideoOpen(true)}
+                  >
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Demo Video
                     </span>
-                  </div>
-                  <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
+                    onClick={() => setIsAddAnimationOpen(true)}
+                  >
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Add Animation
                     </span>
-                  </div>
-                  <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
+                    onClick={() => setAddStepOpen(true)}
+                  >
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Add Steps
                     </span>
-                  </div>
-                  <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
+                  </button>
+                  <button
+                    type="button"
+                    className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
+                    onClick={() => setAddQuestionsOpen(true)}
+                  >
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Add Questions & Challenges
                     </span>
-                  </div>
+                  </button>
                 </div>
                 <div>
                   <div className="w-44 h-28 rounded-2xl bg-[var(--border-primary)] flex justify-center items-center">
                     <label
                       htmlFor={`classVideoThumbnail-${videoIndex}`}
-                      className="text-base text-[var(--text-secondary)] font-semibold"
+                      className="text-base text-[var(--text-secondary)] font-semibold cursor-pointer"
                     >
                       {video?.videoThumbnail?.name ? (
                         <div className="w-full h-28 rounded-2xl border border-[var(--border-primary)] overflow-hidden flex justify-center items-center">
@@ -172,6 +201,50 @@ export default function AddClassVideos({ videoIndex, video }) {
           </div>
         </div>
       </div>
+
+      {isAddClassVideoOpen && (
+        <ClassVideo
+          key={video.id}
+          id={video.id}
+          videoIndex={videoIndex}
+          setIsAddClassVideoOpen={setIsAddClassVideoOpen}
+        />
+      )}
+
+      {isAddDemoVideoOpen && (
+        <DemoVideo
+          key={video.id}
+          id={video.id}
+          videoIndex={videoIndex}
+          setIsAddDemoVideoOpen={setIsAddDemoVideoOpen}
+        />
+      )}
+
+      {isAddAnimationOpen && (
+        <AnimationVideo
+          key={video.id}
+          id={video.id}
+          videoIndex={videoIndex}
+          setIsAddAnimationOpen={setIsAddAnimationOpen}
+        />
+      )}
+
+      {addStepsOpen && (
+        <AddVideoSteps
+          key={video.id}
+          id={video.id}
+          videoIndex={videoIndex}
+          setAddStepOpen={setAddStepOpen}
+        />
+      )}
+      {addQuestionsOpen && (
+        <AddQuestionsAndChallenge
+          key={video.id}
+          id={video.id}
+          videoIndex={videoIndex}
+          setAddQuestionsOpen={setAddQuestionsOpen}
+        />
+      )}
     </div>
   );
 }
