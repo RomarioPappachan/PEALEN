@@ -10,6 +10,7 @@ import { LuPlus } from "react-icons/lu";
 
 export default function Courses() {
   const { courses, getCourses, loading } = useCourseStore();
+  console.log(courses);
 
   useEffect(function () {
     getCourses();

@@ -4,7 +4,7 @@ import AddIntroVideo from "./AddIntroVideo";
 import AddClassVideos from "./AddClassVideos";
 import { useAddCourseVideosStore } from "@/store/addCourseVideosStore";
 
-export default function AddCourseVideos({ onNext }) {
+export default function AddCourseVideos({ onNext, onPrevious }) {
   const {
     introVideos,
     classVideos,
@@ -94,6 +94,7 @@ export default function AddCourseVideos({ onNext }) {
           <button
             type="button"
             className="w-[330px] h-[54px] bg-[#9D9D9D] text-white font-semibold text-lg rounded-2xl"
+            onClick={onPrevious}
           >
             Cancel
           </button>

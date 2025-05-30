@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { fetchCourses } from "@/api/course";
 
 export const useCourseStore = create((set) => ({
   courses: [],

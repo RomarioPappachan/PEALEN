@@ -14,13 +14,21 @@ export default function CreateCourse() {
     setStep((prevVal) => prevVal + 1);
   };
 
+  const prevStep = () => {
+    if (step <= 1) return;
+
+    setStep((prevVal) => prevVal - 1);
+  };
+
   return (
     <div>
       {step === 1 && <AddCourseDetails onNext={nextStep} />}
 
-      {step === 2 && <AddCourseVideos onNext={nextStep} />}
+      {step === 2 && (
+        <AddCourseVideos onNext={nextStep} onPrevious={prevStep} />
+      )}
 
-      {step === 3 && <CreateCertificate />}
+      {step === 3 && <CreateCertificate onPrevious={prevStep} />}
     </div>
   );
 }

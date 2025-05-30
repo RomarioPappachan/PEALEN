@@ -64,17 +64,31 @@
 // }
 
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { login } from "@/api/auth";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
+  const { user, token, login: setAuth, checkAuth } = useAuthStore();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login: setAuth } = useAuthStore();
+
   const router = useRouter();
+
+  // Ensure if user is already logged in
+  useEffect(() => {
+    checkAuth(); // Load auth state once on mount
+  }, []);
+
+  useEffect(() => {
+    if (user && token) {
+      router.push("/dashboard/courses");
+    }
+  }, [user, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,9 +99,11 @@ export default function LoginPage() {
       console.log(data);
 
       setAuth(data.adminDetails, data.token);
+      toast.success("Login Successful");
       router.push("/dashboard/courses");
     } catch (err) {
       setError("Invalid username or password");
+      toast.error("Invalid username or password");
     }
   };
 

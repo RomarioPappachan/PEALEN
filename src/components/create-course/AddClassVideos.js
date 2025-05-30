@@ -186,12 +186,37 @@ export default function AddClassVideos({ videoIndex, video }) {
           <div className="w-1/4 px-6 max-w-max">
             <div className="p-2 bg-[var(--background-tertiary)] rounded-2xl space-y-2">
               <div className=" grid grid-cols-2 gap-1">
-                <div className="size-[88px] rounded-2xl border-dotted border-2 border-[#05A8E3] bg-[#B6E9FB]"></div>
+                <div className="size-[88px] rounded-2xl border-2 border-[#05A8E3] bg-[#B6E9FB] border-dotted"></div>
                 <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
                 <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
                 <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
-                <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
-                <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
+
+                <div
+                  className={`size-[88px] rounded-2xl border-2 cursor-pointer flex justify-center items-center ${
+                    video.videoSteps.length > 0
+                      ? "border-[#05A8E3] bg-[#B6E9FB] border-dotted"
+                      : "border-[#B3B8B8] bg-[#F1F1F1]"
+                  }`}
+                  onClick={() => setAddStepOpen(true)}
+                >
+                  <span className="text-xs text-center">
+                    {video.videoSteps.length > 0 ? "Video Steps ✅" : ""}
+                  </span>
+                </div>
+                <div
+                  className={`size-[88px] rounded-2xl border-2 cursor-pointer flex justify-center items-center ${
+                    video?.test?.questions?.length > 0 &&
+                    video?.test?.challenge !== ""
+                      ? "border-[#05A8E3] bg-[#B6E9FB] border-dotted"
+                      : "border-[#B3B8B8] bg-[#F1F1F1]"
+                  }`}
+                  onClick={() => setAddQuestionsOpen(true)}
+                >
+                  {video?.test?.questions?.length > 0 &&
+                  video?.test?.challenge !== ""
+                    ? "Q & A ✅"
+                    : ""}
+                </div>
               </div>
               <p className="text-center text-[var(--text-secondary)] text-[10px] leading-3.5">
                 Please look at the selected area to see which slot you are
