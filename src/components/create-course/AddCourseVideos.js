@@ -3,16 +3,24 @@ import React from "react";
 import AddIntroVideo from "./AddIntroVideo";
 import AddClassVideos from "./AddClassVideos";
 import { useAddCourseVideosStore } from "@/store/addCourseVideosStore";
+import { useCreateClassVideosStore } from "@/store/createClassVideosStore";
+import { useCreateIntroVideosStore } from "@/store/createIntroVideosStore";
+import { useCreateConclusionVideosStore } from "@/store/createConclusionVideosStore";
+import AddConclusionVideo from "./AddConclusionVideo";
 
 export default function AddCourseVideos({ onNext, onPrevious }) {
-  const {
-    introVideos,
-    classVideos,
-    conclusionVideos,
-    addNewIntroVideo,
-    addNewClassVideo,
-    addConclusionVideo,
-  } = useAddCourseVideosStore();
+  // const {
+  //   introVideos,
+  //   classVideos,
+  //   conclusionVideos,
+  //   addNewIntroVideo,
+  //   addNewClassVideo,
+  //   addConclusionVideo,
+  // } = useAddCourseVideosStore();
+  const { introVideos, addNewIntroVideo } = useCreateIntroVideosStore();
+  const { classVideos, addNewClassVideo } = useCreateClassVideosStore();
+  const { conclusionVideos, addNewConclusionVideo } =
+    useCreateConclusionVideosStore();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -20,6 +28,8 @@ export default function AddCourseVideos({ onNext, onPrevious }) {
   }
 
   console.log(introVideos);
+  console.log(classVideos);
+  console.log(conclusionVideos);
 
   return (
     <div>
@@ -84,6 +94,39 @@ export default function AddCourseVideos({ onNext, onPrevious }) {
               type="button"
               className="font-semibold text-lg text-[var(--text-secondary)] border-b border-[var(--text-secondary)] cursor-pointer"
               onClick={addNewClassVideo}
+            >
+              + Add Module
+            </button>
+          </div>
+        </div>
+
+        {/* Conclusion Videos */}
+        <div className="mt-4">
+          <h2 className="mb-2 text-[var(--text-primary)] text-xl font-semibold">
+            Conclusion Videos
+          </h2>
+
+          <div className="space-y-3">
+            {conclusionVideos.length > 0 ? (
+              conclusionVideos.map((video, index) => (
+                <AddConclusionVideo
+                  key={video.id}
+                  videoIndex={index}
+                  video={video}
+                />
+              ))
+            ) : (
+              <p className="text-red-400 dark:text-[var(--text-secondary)]">
+                Add a conclusion video
+              </p>
+            )}
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <button
+              type="button"
+              className="font-semibold text-lg text-[var(--text-secondary)] border-b border-[var(--text-secondary)] cursor-pointer"
+              onClick={addNewConclusionVideo}
             >
               + Add Module
             </button>

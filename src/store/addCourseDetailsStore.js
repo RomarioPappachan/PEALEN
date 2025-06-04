@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createCourse } from "@/api/course";
+import { createCourse, updateCourse } from "@/api/course";
 
 export const useAddCourseDetailsStore = create((set) => ({
   // store
@@ -8,7 +8,7 @@ export const useAddCourseDetailsStore = create((set) => ({
     id: "",
     title: "",
     description: "",
-    courseContents: "",
+    courseContents: [],
     image: null, // File
     pdf: null, // File
     instructorIds: [],
@@ -17,6 +17,8 @@ export const useAddCourseDetailsStore = create((set) => ({
 
   loading: false,
   error: null,
+  isCreated: false, // to check whether the course is already created.
+  currentCourseId: null,
 
   //   change course details
   setCourseDetail: (field, value) => {
@@ -82,13 +84,36 @@ export const useAddCourseDetailsStore = create((set) => ({
     }));
   },
 
-  // Add a new member
+  // Add a new course
   addCourse: async (courseData) => {
     set({ loading: true, error: null });
     try {
       const res = await createCourse(courseData);
       set((state) => ({
         loading: false,
+        isCreated: true,
+        currentCourseId: res?.course?.id,
+        courseDetails: {
+          ...state.courseDetails,
+          id: res?.course?.id,
+        },
+      }));
+      return res;
+    } catch (error) {
+      set({ error: "Failed to create a new course", loading: false });
+      throw error;
+    }
+  },
+
+  // Edit a course
+  editCourse: async (courseId, courseData) => {
+    set({ loading: true, error: null });
+    try {
+      const res = await updateCourse(courseId, courseData);
+      set((state) => ({
+        loading: false,
+        isCreated: true,
+        currentCourseId: res?.course?.id,
         courseDetails: {
           ...state.courseDetails,
           id: res?.course?.id,
@@ -107,12 +132,16 @@ export const useAddCourseDetailsStore = create((set) => ({
       courseDetails: {
         title: "",
         description: "",
-        courseContents: "",
+        courseContents: [],
         image: null,
         pdf: null,
         instructorIds: [],
-        categoryId: "",
+        categoryId: "cbed4b23-ca60-4245-9bea-1ade60684fbf",
       },
+      loading: false,
+      error: null,
+      isCreated: false,
+      currentCourseId: null,
     });
   },
 }));

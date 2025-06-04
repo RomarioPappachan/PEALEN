@@ -1,45 +1,50 @@
 "use client";
 import React, { useState } from "react";
-import { useCreateIntroVideosStore } from "@/store/createIntroVideosStore";
+import { useCreateConclusionVideosStore } from "@/store/createConclusionVideosStore";
+
+import AddConclusionMaterials from "./AddConclusionMaterials";
+import AddConclusionChallenge from "./AddConclusionChallenge";
+import AddConclusionQuestions from "./AddConclusionQuestions";
+
 import { LuPlus, LuMinus } from "react-icons/lu";
 import { LiaTrashAlt } from "react-icons/lia";
-import AddIntroMaterials from "./AddIntroMaterials";
-import AddIntroChallenge from "./AddIntroChallenge";
-import AddIntroQuestions from "./AddIntroQuestions";
 
-export default function AddIntroVideo({ id, videoIndex, video }) {
-  const { setIntroVideoDetails, removeIntroVideo } =
-    useCreateIntroVideosStore();
+export default function AddConclusionVideo({ id, videoIndex, video }) {
+  const { setConclusionVideoDetails, removeConclusionVideo } =
+    useCreateConclusionVideosStore();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const [isAddIntroMaterialOpen, setIsAddIntroMaterialOpen] = useState(false);
-  const [isAddIntroQuestionsOpen, setIsAddIntroQuestionsOpen] = useState(false);
-  const [isAddIntroChallengeOpen, setIsAddIntroChallengeOpen] = useState(false);
+  const [isAddConclusionMaterialOpen, setIsAddConclusionMaterialOpen] =
+    useState(false);
+  const [isAddConclusionQuestionsOpen, setIsAddConclusionQuestionsOpen] =
+    useState(false);
+  const [isAddConclusionChallengeOpen, setIsAddConclusionChallengeOpen] =
+    useState(false);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setIntroVideoDetails(name, value, videoIndex); // in the store for form submission
+    setConclusionVideoDetails(name, value, videoIndex); // in the store for form submission
   };
 
   const handleVideoThumbnail = (e, videoIndex) => {
     const name = e.target.name;
     const file = e.target.files[0];
 
-    setIntroVideoDetails(name, file, videoIndex); // in the store for form submission
+    setConclusionVideoDetails(name, file, videoIndex); // in the store for form submission
   };
 
   return (
     <div className="px-8 py-6 bg-[var(--background-primary)] rounded-2xl drop-shadow-md">
       <div className="flex justify-between items-center">
         <h3 className="font-semibold text-base text-[var(--text-secondary)]">
-          {videoIndex + 1} <span className="ms-4">Intro Video</span>
+          {videoIndex + 1} <span className="ms-4">Conclusion Video</span>
         </h3>
         <div className="flex items-center gap-4">
           <button
             type="button"
             className="flex justify-center items-center cursor-pointer"
-            onClick={() => removeIntroVideo(videoIndex)}
+            onClick={() => removeConclusionVideo(videoIndex)}
           >
             <LiaTrashAlt className="text-2xl text-[#BEBEBE] font-bold hover:text-red-400" />
           </button>
@@ -84,7 +89,7 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
                 <button
                   className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
                   type="button"
-                  onClick={() => setIsAddIntroMaterialOpen(true)}
+                  onClick={() => setIsAddConclusionMaterialOpen(true)}
                 >
                   <span className="text-[var(--border-secondary)] font-semibold">
                     Module materials
@@ -94,7 +99,7 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
                 <button
                   className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
                   type="button"
-                  onClick={() => setIsAddIntroQuestionsOpen(true)}
+                  onClick={() => setIsAddConclusionQuestionsOpen(true)}
                 >
                   <span className="text-[var(--border-secondary)] font-semibold">
                     Add Questions
@@ -104,7 +109,7 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
                 <button
                   className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
                   type="button"
-                  onClick={() => setIsAddIntroChallengeOpen(true)}
+                  onClick={() => setIsAddConclusionChallengeOpen(true)}
                 >
                   <span className="text-[var(--border-secondary)] font-semibold">
                     Add Challenges
@@ -126,7 +131,7 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
           <div className="w-1/5">
             <div>
               <label
-                htmlFor={`introVideoThumbnail-${videoIndex}`}
+                htmlFor={`conclusionVideoThumbnail-${videoIndex}`}
                 className="text-base text-[var(--text-secondary)] font-semibold cursor-pointer"
               >
                 {video?.image?.name ? (
@@ -145,7 +150,7 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
                   </div>
                 )}
                 <input
-                  id={`introVideoThumbnail-${videoIndex}`}
+                  id={`conclusionVideoThumbnail-${videoIndex}`}
                   type="file"
                   accept="image/*"
                   name="image"
@@ -158,26 +163,26 @@ export default function AddIntroVideo({ id, videoIndex, video }) {
         </div>
       </div>
 
-      {isAddIntroMaterialOpen && (
-        <AddIntroMaterials
+      {isAddConclusionMaterialOpen && (
+        <AddConclusionMaterials
           key={video.id}
           videoIndex={videoIndex}
-          setIsAddIntroMaterialOpen={setIsAddIntroMaterialOpen}
+          setIsAddConclusionMaterialOpen={setIsAddConclusionMaterialOpen}
         />
       )}
 
-      {isAddIntroChallengeOpen && (
-        <AddIntroChallenge
+      {isAddConclusionChallengeOpen && (
+        <AddConclusionChallenge
           key={video.id}
           videoIndex={videoIndex}
-          setIsAddIntroChallengeOpen={setIsAddIntroChallengeOpen}
+          setIsAddConclusionChallengeOpen={setIsAddConclusionChallengeOpen}
         />
       )}
-      {isAddIntroQuestionsOpen && (
-        <AddIntroQuestions
+      {isAddConclusionQuestionsOpen && (
+        <AddConclusionQuestions
           key={video.id}
           videoIndex={videoIndex}
-          setIsAddIntroQuestionsOpen={setIsAddIntroQuestionsOpen}
+          setIsAddConclusionQuestionsOpen={setIsAddConclusionQuestionsOpen}
         />
       )}
     </div>

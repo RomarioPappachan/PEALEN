@@ -1,71 +1,7 @@
 import { create } from "zustand";
 
-export const useAddCourseVideosStore = create((set) => ({
-  // newIntroVideo: {
-  //   title: "",
-  //   videoThumbnail: null,
-  //   uploadId: "",
-  //   playbackId: "",
-  //   videoUrl: "",
-  //   moduleMaterial: "",
-  // },
-  // newClassVideo: {},
-  // newConclusionVideo: {},
-
-  introVideos: [],
+export const useCreateClassVideosStore = create((set) => ({
   classVideos: [],
-  conclusionVideos: [],
-
-  // Intro Video handlers
-
-  addNewIntroVideo: () => {
-    set((state) => ({
-      introVideos: [
-        ...state.introVideos,
-        {
-          id: crypto.randomUUID(),
-          videoTitle: "",
-          videoThumbnail: null,
-          uploadId: "",
-          playbackId: "",
-          videoUrl: "",
-          moduleMaterial: "",
-        },
-      ],
-    }));
-  },
-
-  addIntroVideoTitle: (videoTitle, videoIndex) => {
-    set((state) => {
-      const updatedIntroVideos = state.introVideos.map((video, index) => {
-        if (index === videoIndex) {
-          return { ...video, videoTitle };
-        }
-        return video;
-      });
-      return { introVideos: updatedIntroVideos };
-    });
-  },
-
-  addIntroVideoThumbnail: (imageFile, videoIndex) => {
-    set((state) => {
-      const updatedIntroVideos = state.introVideos.map((video, index) => {
-        if (index === videoIndex) {
-          return { ...video, videoThumbnail: imageFile };
-        }
-        return video;
-      });
-      return { introVideos: updatedIntroVideos };
-    });
-  },
-
-  removeIntroVideo: (introVideoId) => {
-    set((state) => ({
-      introVideos: state.introVideos.filter(
-        (_, index) => index !== introVideoId
-      ),
-    }));
-  },
 
   // Class Videos handlers
 
@@ -102,7 +38,7 @@ export const useAddCourseVideosStore = create((set) => ({
                   { id: crypto.randomUUID(), optionText: "", image: "" },
                   { id: crypto.randomUUID(), optionText: "", image: "" },
                 ],
-                correctAnswer: "",
+                correctAnswer: {},
               },
             ],
           },
@@ -454,10 +390,5 @@ export const useAddCourseVideosStore = create((set) => ({
         (_, index) => index !== classVideoId
       ),
     }));
-  },
-
-  // Conclusion Videos
-  addConclusionVideo: () => {
-    set({ conclusionVideos: conclusionVideos.push(newConclusionVideo) });
   },
 }));

@@ -1,20 +1,7 @@
 import { create } from "zustand";
 
-export const useAddCourseVideosStore = create((set) => ({
-  // newIntroVideo: {
-  //   title: "",
-  //   videoThumbnail: null,
-  //   uploadId: "",
-  //   playbackId: "",
-  //   videoUrl: "",
-  //   moduleMaterial: "",
-  // },
-  // newClassVideo: {},
-  // newConclusionVideo: {},
-
+export const useCreateIntroVideosStore = create((set) => ({
   introVideos: [],
-  classVideos: [],
-  conclusionVideos: [],
 
   // Intro Video handlers
 
@@ -25,65 +12,11 @@ export const useAddCourseVideosStore = create((set) => ({
         {
           id: crypto.randomUUID(),
           videoTitle: "",
-          videoThumbnail: null,
-          uploadId: "",
-          playbackId: "",
-          videoUrl: "",
-          moduleMaterial: "",
-        },
-      ],
-    }));
-  },
-
-  addIntroVideoTitle: (videoTitle, videoIndex) => {
-    set((state) => {
-      const updatedIntroVideos = state.introVideos.map((video, index) => {
-        if (index === videoIndex) {
-          return { ...video, videoTitle };
-        }
-        return video;
-      });
-      return { introVideos: updatedIntroVideos };
-    });
-  },
-
-  addIntroVideoThumbnail: (imageFile, videoIndex) => {
-    set((state) => {
-      const updatedIntroVideos = state.introVideos.map((video, index) => {
-        if (index === videoIndex) {
-          return { ...video, videoThumbnail: imageFile };
-        }
-        return video;
-      });
-      return { introVideos: updatedIntroVideos };
-    });
-  },
-
-  removeIntroVideo: (introVideoId) => {
-    set((state) => ({
-      introVideos: state.introVideos.filter(
-        (_, index) => index !== introVideoId
-      ),
-    }));
-  },
-
-  // Class Videos handlers
-
-  addNewClassVideo: () => {
-    set((state) => ({
-      classVideos: [
-        ...state.classVideos,
-        {
-          id: crypto.randomUUID(),
-          title: "",
-          subject: "",
           image: null,
           uploadId: "",
           playbackId: "",
           videoUrl: "",
-          pdf: null,
-          srt: null,
-          videoSteps: [],
+          pdf: "",
           test: {
             challenge: {
               challengeText: "",
@@ -102,7 +35,7 @@ export const useAddCourseVideosStore = create((set) => ({
                   { id: crypto.randomUUID(), optionText: "", image: "" },
                   { id: crypto.randomUUID(), optionText: "", image: "" },
                 ],
-                correctAnswer: "",
+                correctAnswer: {},
               },
             ],
           },
@@ -111,74 +44,21 @@ export const useAddCourseVideosStore = create((set) => ({
     }));
   },
 
-  addClassVideoDetails: (name, value, videoIndex) => {
+  setIntroVideoDetails: (name, value, videoIndex) => {
     set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
+      const updatedIntroVideos = state.introVideos.map((video, index) => {
         if (index === videoIndex) {
           return { ...video, [name]: value };
         }
         return video;
       });
-      return { classVideos: updatedClassVideos };
+      return { introVideos: updatedIntroVideos };
     });
   },
 
-  addClassVideoThumbnail: (imageFile, videoIndex) => {
+  addIntroVideoQuestions: (videoIndex) => {
     set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
-        if (index === videoIndex) {
-          return { ...video, videoThumbnail: imageFile };
-        }
-        return video;
-      });
-      return { classVideos: updatedClassVideos };
-    });
-  },
-
-  addClassVideoTranscript: (videoIndex, file) => {
-    set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
-        if (index === videoIndex) {
-          return { ...video, srt: file };
-        }
-        return video;
-      });
-      return { classVideos: updatedClassVideos };
-    });
-  },
-
-  addClassVideoSteps: (newVideoStep, videoIndex) => {
-    set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
-        if (index === videoIndex) {
-          const updatedvideoSteps = video.videoSteps;
-          updatedvideoSteps.push(newVideoStep);
-          return { ...video, videoSteps: updatedvideoSteps };
-        }
-        return video;
-      });
-      return { classVideos: updatedClassVideos };
-    });
-  },
-
-  removeClassVideoSteps: (videoIndex, stepIndex) => {
-    set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
-        if (index === videoIndex) {
-          const updatedvideoSteps = video.videoSteps.filter(
-            (_, index) => index !== stepIndex
-          );
-          return { ...video, videoSteps: updatedvideoSteps };
-        }
-        return video;
-      });
-      return { classVideos: updatedClassVideos };
-    });
-  },
-
-  addClassVideoQuestions: (videoIndex) => {
-    set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
+      const updatedIntroVideos = state.introVideos.map((video, index) => {
         if (index === videoIndex) {
           const newQuestion = {
             id: crypto.randomUUID(),
@@ -202,13 +82,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedClassVideos };
+      return { introVideos: updatedIntroVideos };
     });
   },
 
-  removeClassVideoQuestions: (videoIndex, questionIndex) => {
+  removeIntroVideoQuestions: (videoIndex, questionIndex) => {
     set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
+      const updatedIntroVideos = state.introVideos.map((video, index) => {
         if (index === videoIndex) {
           const updatedQuestions = video.test.questions.filter(
             (_, i) => i !== questionIndex
@@ -224,13 +104,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedClassVideos };
+      return { introVideos: updatedIntroVideos };
     });
   },
 
-  addClassQuestionOptions: (videoIndex, questionIndex) => {
+  addIntroQuestionOptions: (videoIndex, questionIndex) => {
     set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
+      const updatedIntroVideos = state.introVideos.map((video, index) => {
         if (index === videoIndex) {
           const updatedQuestions = video.test.questions.map((question, idx) => {
             if (idx === questionIndex) {
@@ -257,13 +137,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedClassVideos };
+      return { introVideos: updatedIntroVideos };
     });
   },
 
-  removeClassQuestionOptions: (videoIndex, questionIndex, optionIndex) => {
+  removeIntroQuestionOptions: (videoIndex, questionIndex, optionIndex) => {
     set((state) => {
-      const updatedClassVideos = state.classVideos.map((video, index) => {
+      const updatedIntroVideos = state.introVideos.map((video, index) => {
         if (index === videoIndex) {
           const updatedQuestions = video.test.questions.map((question, idx) => {
             if (idx === questionIndex) {
@@ -285,13 +165,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedClassVideos };
+      return { introVideos: updatedIntroVideos };
     });
   },
 
   updateQuestionText: (videoIndex, questionIndex, questionText) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           const updatedQuestions = video.test.questions.map((q, qIdx) => {
             if (qIdx === questionIndex) {
@@ -309,13 +189,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
   updateQuestionImage: (videoIndex, questionIndex, imageFile) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           const updatedQuestions = video.test.questions.map((q, qIdx) => {
             if (qIdx === questionIndex) {
@@ -333,13 +213,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
   updateOptionText: (videoIndex, questionIndex, optionIndex, optionText) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           const updatedQuestions = video.test.questions.map((q, qIdx) => {
             if (qIdx === questionIndex) {
@@ -360,13 +240,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
   updateOptionImage: (videoIndex, questionIndex, optionIndex, imageFile) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           const updatedQuestions = video.test.questions.map((q, qIdx) => {
             if (qIdx === questionIndex) {
@@ -387,13 +267,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
   updateCorrectAnswer: (videoIndex, questionIndex, correctAnswer) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           const updatedQuestions = video.test.questions.map((q, qIdx) => {
             if (qIdx === questionIndex) {
@@ -408,13 +288,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
   updateChallengeText: (videoIndex, challengeText) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           return {
             ...video,
@@ -426,13 +306,13 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
   updateChallengeImage: (videoIndex, imageFile) => {
     set((state) => {
-      const updatedVideos = state.classVideos.map((video, idx) => {
+      const updatedVideos = state.introVideos.map((video, idx) => {
         if (idx === videoIndex) {
           return {
             ...video,
@@ -444,20 +324,15 @@ export const useAddCourseVideosStore = create((set) => ({
         }
         return video;
       });
-      return { classVideos: updatedVideos };
+      return { introVideos: updatedVideos };
     });
   },
 
-  removeClassVideo: (classVideoId) => {
+  removeIntroVideo: (introVideoId) => {
     set((state) => ({
-      classVideos: state.classVideos.filter(
-        (_, index) => index !== classVideoId
+      introVideos: state.introVideos.filter(
+        (_, index) => index !== introVideoId
       ),
     }));
-  },
-
-  // Conclusion Videos
-  addConclusionVideo: () => {
-    set({ conclusionVideos: conclusionVideos.push(newConclusionVideo) });
   },
 }));

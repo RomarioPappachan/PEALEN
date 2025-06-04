@@ -1,17 +1,23 @@
 "use client";
 import React, { useState } from "react";
-import { LuPlus, LuMinus } from "react-icons/lu";
-import { LiaTrashAlt } from "react-icons/lia";
-import { useAddCourseVideosStore } from "@/store/addCourseVideosStore";
+import { useCreateClassVideosStore } from "@/store/createClassVideosStore";
 import AddVideoSteps from "./AddVideoSteps";
 import AddQuestionsAndChallenge from "./AddQuestionsAndChallenge";
 import ClassVideo from "./ClassVideo";
 import DemoVideo from "./DemoVideo";
 import AnimationVideo from "./AnimationVideo";
+import AddTranscript from "./AddTranscript";
+
+import { LuPlus, LuMinus } from "react-icons/lu";
+import { LiaTrashAlt } from "react-icons/lia";
 
 export default function AddClassVideos({ videoIndex, video }) {
-  const { addClassVideoTitle, addClassVideoThumbnail, removeClassVideo } =
-    useAddCourseVideosStore();
+  const {
+    addClassVideoDetails,
+    addClassVideoTitle,
+    addClassVideoThumbnail,
+    removeClassVideo,
+  } = useCreateClassVideosStore();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [isAddClassVideoOpen, setIsAddClassVideoOpen] = useState(false);
@@ -23,11 +29,17 @@ export default function AddClassVideos({ videoIndex, video }) {
 
   // const [previewImgUrl, setPreviewImgUrl] = useState("");
 
-  const handleVideoThumbnail = (e, videoIndex) => {
+  const handleChange = (e, index) => {
+    const { name, value } = e.target;
+    addClassVideoDetails(name, value, index);
+  };
+
+  const handleVideoThumbnail = (e, index) => {
+    const name = e.target.name;
     const file = e.target.files[0];
     // console.log(file);
     // const imageUrl = URL.createObjectURL(file);
-    addClassVideoThumbnail(file, videoIndex); // in the store for form submission
+    addClassVideoDetails(name, file, index); // in the store for form submission
     // setPreviewImgUrl(imageUrl); // for display
   };
 
@@ -73,11 +85,13 @@ export default function AddClassVideos({ videoIndex, video }) {
                   Video Title
                 </h3>
                 <input
-                  id="courseTitle"
+                  id="title"
                   type="text"
-                  name="courseTitle"
+                  name="title"
+                  value={video?.title}
                   className="w-full h-14 p-3.5 bg-[var(--background-primary)] text-[var(--text-secondary)] border border-[var(--border-primary)] rounded-2xl outline-none placeholder:text-[var(--text-placeholder)] placeholder:italic focus:border-[var(--border-secondary)]"
                   placeholder="Type here"
+                  onChange={(e) => handleChange(e, videoIndex)}
                 />
               </div>
 
@@ -86,11 +100,13 @@ export default function AddClassVideos({ videoIndex, video }) {
                   Video subject (First window of the Tutor)
                 </h3>
                 <input
-                  id="courseTitle"
+                  id="subject"
                   type="text"
-                  name="courseTitle"
+                  name="subject"
+                  value={video?.subject}
                   className="w-full h-14 p-3.5 bg-[var(--background-primary)] text-[var(--text-secondary)] border border-[var(--border-primary)] rounded-2xl outline-none placeholder:text-[var(--text-placeholder)] placeholder:italic focus:border-[var(--border-secondary)]"
                   placeholder="Type here"
+                  onChange={(e) => handleChange(e, videoIndex)}
                 />
               </div>
 
@@ -105,11 +121,15 @@ export default function AddClassVideos({ videoIndex, video }) {
                       Add Class Video
                     </span>
                   </button>
-                  <div className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer">
+                  <button
+                    type="button"
+                    className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
+                    onClick={() => setIsAddTranscriptOpen(true)}
+                  >
                     <span className="text-[var(--border-secondary)] font-semibold text-center leading-[18px]">
                       Transcription (SRT)
                     </span>
-                  </div>
+                  </button>
                   <button
                     type="button"
                     className="w-full h-12 p-3 border border-[var(--border-secondary)] rounded-2xl outline-none flex justify-center items-center cursor-pointer"
@@ -153,11 +173,11 @@ export default function AddClassVideos({ videoIndex, video }) {
                       htmlFor={`classVideoThumbnail-${videoIndex}`}
                       className="text-base text-[var(--text-secondary)] font-semibold cursor-pointer"
                     >
-                      {video?.videoThumbnail?.name ? (
+                      {video?.image?.name ? (
                         <div className="w-full h-28 rounded-2xl border border-[var(--border-primary)] overflow-hidden flex justify-center items-center">
                           <img
-                            src={URL.createObjectURL(video?.videoThumbnail)}
-                            alt={video?.videoThumbnail?.name || "Thumbnail"}
+                            src={URL.createObjectURL(video?.image)}
+                            alt={video?.image?.name || "Thumbnail"}
                             className="w-full"
                           />
                         </div>
@@ -172,7 +192,7 @@ export default function AddClassVideos({ videoIndex, video }) {
                         id={`classVideoThumbnail-${videoIndex}`}
                         type="file"
                         accept="image/*"
-                        name={video.videoThumbnail}
+                        name="image"
                         className="hidden"
                         onChange={(e) => handleVideoThumbnail(e, videoIndex)}
                       />
@@ -187,7 +207,18 @@ export default function AddClassVideos({ videoIndex, video }) {
             <div className="p-2 bg-[var(--background-tertiary)] rounded-2xl space-y-2">
               <div className=" grid grid-cols-2 gap-1">
                 <div className="size-[88px] rounded-2xl border-2 border-[#05A8E3] bg-[#B6E9FB] border-dotted"></div>
-                <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
+                <div
+                  className={`size-[88px] rounded-2xl border-2 cursor-pointer flex justify-center items-center ${
+                    video.srt?.name
+                      ? "border-[#05A8E3] bg-[#B6E9FB] border-dotted"
+                      : "border-[#B3B8B8] bg-[#F1F1F1]"
+                  }`}
+                  onClick={() => setIsAddTranscriptOpen(true)}
+                >
+                  <span className="text-xs text-center">
+                    {video.srt?.name ? "Transcript ✅" : ""}
+                  </span>
+                </div>
                 <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
                 <div className="size-[88px] rounded-2xl border-2 border-[#B3B8B8] bg-[#F1F1F1]"></div>
 
@@ -206,14 +237,14 @@ export default function AddClassVideos({ videoIndex, video }) {
                 <div
                   className={`size-[88px] rounded-2xl border-2 cursor-pointer flex justify-center items-center ${
                     video?.test?.questions?.length > 0 &&
-                    video?.test?.challenge !== ""
+                    video?.test?.challenge?.challengeText !== ""
                       ? "border-[#05A8E3] bg-[#B6E9FB] border-dotted"
                       : "border-[#B3B8B8] bg-[#F1F1F1]"
                   }`}
                   onClick={() => setAddQuestionsOpen(true)}
                 >
                   {video?.test?.questions?.length > 0 &&
-                  video?.test?.challenge !== ""
+                  video?.test?.challenge?.challengeText !== ""
                     ? "Q & A ✅"
                     : ""}
                 </div>
@@ -251,6 +282,15 @@ export default function AddClassVideos({ videoIndex, video }) {
           id={video.id}
           videoIndex={videoIndex}
           setIsAddAnimationOpen={setIsAddAnimationOpen}
+        />
+      )}
+
+      {isAddTranscriptOpen && (
+        <AddTranscript
+          key={video.id}
+          id={video.id}
+          videoIndex={videoIndex}
+          setIsAddTranscriptOpen={setIsAddTranscriptOpen}
         />
       )}
 

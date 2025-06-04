@@ -57,6 +57,18 @@ export const updateCourse = async (courseId, updatedData) => {
   }
 };
 
+export const createCourseCertificate = async (courseId, certificateDetails) => {
+  try {
+    const res = await axiosInstance.post(
+      `/admin/addCertificate/${courseId}`,
+      certificateDetails
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to create course");
+  }
+};
+
 export const deleteCourse = async (courseId) => {
   try {
     const res = await axiosInstance.delete(`/courses/deleteCourse/${courseId}`);
@@ -66,110 +78,111 @@ export const deleteCourse = async (courseId) => {
   }
 };
 
+// For old admin page
 // Videos
-export const fetchCourseVideos = async (courseId) => {
-  try {
-    const res = await axiosInstance.get(`/videos/getCourseVideos/${courseId}`);
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to fetch course videos"
-    );
-  }
-};
+// export const fetchCourseVideos = async (courseId) => {
+//   try {
+//     const res = await axiosInstance.get(`/videos/getCourseVideos/${courseId}`);
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to fetch course videos"
+//     );
+//   }
+// };
 
-export const fetchCourseVideoById = async (videoId) => {
-  try {
-    const res = await axiosInstance.get(`/videos/getVideoDetails/${videoId}`);
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to fetch course video"
-    );
-  }
-};
+// export const fetchCourseVideoById = async (videoId) => {
+//   try {
+//     const res = await axiosInstance.get(`/videos/getVideoDetails/${videoId}`);
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to fetch course video"
+//     );
+//   }
+// };
 
-export const createCourseVideo = async (courseId, videoData) => {
-  try {
-    const res = await axiosInstance.put(
-      `/videos/manageVideos/${courseId}`,
-      videoData
-    );
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to create course video"
-    );
-  }
-};
+// export const createCourseVideo = async (courseId, videoData) => {
+//   try {
+//     const res = await axiosInstance.put(
+//       `/videos/manageVideos/${courseId}`,
+//       videoData
+//     );
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to create course video"
+//     );
+//   }
+// };
 
-export const updateCourseVideo = async (courseId, updatedData) => {
-  try {
-    const res = await axiosInstance.put(`/videos/manageVideos/${courseId}`, {
-      updateVideos: [updatedData],
-    });
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to update course video"
-    );
-  }
-};
+// export const updateCourseVideo = async (courseId, updatedData) => {
+//   try {
+//     const res = await axiosInstance.put(`/videos/manageVideos/${courseId}`, {
+//       updateVideos: [updatedData],
+//     });
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to update course video"
+//     );
+//   }
+// };
 
-export const deleteCourseVideo = async (courseId, videoId) => {
-  try {
-    const res = await axiosInstance.put(`/videos/manageVideos/${courseId}`, {
-      removeVideoIds: [videoId],
-    });
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to delete course video"
-    );
-  }
-};
+// export const deleteCourseVideo = async (courseId, videoId) => {
+//   try {
+//     const res = await axiosInstance.put(`/videos/manageVideos/${courseId}`, {
+//       removeVideoIds: [videoId],
+//     });
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to delete course video"
+//     );
+//   }
+// };
 
-// Challenges
-export const submitChallenge = async (videoId, challengeData) => {
-  try {
-    const res = await axiosInstance.put(`/tests/manageTests/${videoId}`, {
-      addTest: challengeData,
-    });
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to submit challenge"
-    );
-  }
-};
+// // Challenges
+// export const submitChallenge = async (videoId, challengeData) => {
+//   try {
+//     const res = await axiosInstance.put(`/tests/manageTests/${videoId}`, {
+//       addTest: challengeData,
+//     });
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to submit challenge"
+//     );
+//   }
+// };
 
-export const updateChallenge = async (videoId, challengeData) => {
-  try {
-    const res = await axiosInstance.put(`/tests/manageTests/${videoId}`, {
-      updateTest: {
-        testId: challengeData.id,
-        questions: challengeData.questions,
-        challenge: challengeData.challenge,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to update challenge"
-    );
-  }
-};
+// export const updateChallenge = async (videoId, challengeData) => {
+//   try {
+//     const res = await axiosInstance.put(`/tests/manageTests/${videoId}`, {
+//       updateTest: {
+//         testId: challengeData.id,
+//         questions: challengeData.questions,
+//         challenge: challengeData.challenge,
+//       },
+//     });
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to update challenge"
+//     );
+//   }
+// };
 
-export const deleteChallenge = async (videoId, challengeId) => {
-  try {
-    const res = await axiosInstance.put(
-      `/tests/manageTests/${videoId}`,
-      challengeId
-    );
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to delete challenge"
-    );
-  }
-};
+// export const deleteChallenge = async (videoId, challengeId) => {
+//   try {
+//     const res = await axiosInstance.put(
+//       `/tests/manageTests/${videoId}`,
+//       challengeId
+//     );
+//     return res.data;
+//   } catch (error) {
+//     throw new Error(
+//       error.response?.data?.message || "Failed to delete challenge"
+//     );
+//   }
+// };
