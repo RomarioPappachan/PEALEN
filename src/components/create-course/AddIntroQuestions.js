@@ -2,21 +2,21 @@
 
 import React from "react";
 import { createPortal } from "react-dom";
-import { useCreateClassVideosStore } from "@/store/createClassVideosStore";
+import { useCreateIntroVideosStore } from "@/store/createIntroVideosStore";
 
 import { LuPen, LuPlus, LuX } from "react-icons/lu";
 
-export default function AddQuestionsAndChallenge({
+export default function AddIntroQuestions({
   id,
   videoIndex,
-  setAddQuestionsOpen,
+  setIsAddIntroQuestionsOpen,
 }) {
   const {
-    classVideos,
-    addClassVideoQuestions,
-    addClassQuestionOptions,
-    removeClassVideoQuestions,
-    removeClassQuestionOptions,
+    introVideos,
+    addIntroVideoQuestions,
+    addIntroQuestionOptions,
+    removeIntroVideoQuestions,
+    removeIntroQuestionOptions,
     updateQuestionText,
     updateQuestionImage,
     updateOptionText,
@@ -24,9 +24,9 @@ export default function AddQuestionsAndChallenge({
     updateCorrectAnswer,
     updateChallengeText,
     updateChallengeImage,
-  } = useCreateClassVideosStore();
+  } = useCreateIntroVideosStore();
 
-  const videoTest = classVideos[videoIndex]?.test;
+  const videoTest = introVideos[videoIndex]?.test;
 
   return createPortal(
     <div className="fixed inset-0 z-50 bg-black/40 flex justify-center items-center px-2 py-6">
@@ -34,7 +34,7 @@ export default function AddQuestionsAndChallenge({
         {/* Close Button */}
         <button
           type="button"
-          onClick={() => setAddQuestionsOpen(false)}
+          onClick={() => setIsAddIntroQuestionsOpen(false)}
           className="absolute top-3 right-3 size-9 rounded-lg bg-[#DF5050] text-white flex justify-center items-center z-10 cursor-pointer"
         >
           <LuX className="text-xl" />
@@ -106,7 +106,7 @@ export default function AddQuestionsAndChallenge({
                 </div>
                 <button
                   onClick={() =>
-                    removeClassVideoQuestions(videoIndex, questionIndex)
+                    removeIntroVideoQuestions(videoIndex, questionIndex)
                   }
                   className="size-6 bg-[var(--border-secondary)] text-white hover:bg-red-400 rounded-full flex justify-center items-center cursor-pointer"
                   type="button"
@@ -186,7 +186,7 @@ export default function AddQuestionsAndChallenge({
 
                       <button
                         onClick={() =>
-                          removeClassQuestionOptions(
+                          removeIntroQuestionOptions(
                             videoIndex,
                             questionIndex,
                             idx
@@ -206,7 +206,7 @@ export default function AddQuestionsAndChallenge({
                   title="Add option"
                   className="ms-10 size-9 border border-[var(--border-secondary)] rounded-lg flex justify-center items-center cursor-pointer"
                   onClick={() =>
-                    addClassQuestionOptions(videoIndex, questionIndex)
+                    addIntroQuestionOptions(videoIndex, questionIndex)
                   }
                 >
                   <LuPlus className="text-xl text-[#72C347]" />
@@ -224,14 +224,14 @@ export default function AddQuestionsAndChallenge({
               type="button"
               title="Add question"
               className="font-semibold text-sm text-[#72C347] border-b border-[var(--border-secondary)] cursor-pointer"
-              onClick={() => addClassVideoQuestions(videoIndex)}
+              onClick={() => addIntroVideoQuestions(videoIndex)}
             >
               + Add a question
             </button>
           </div>
 
           {/* Add Challenge */}
-          <div>
+          {/* <div>
             <h2 className="mb-2 text-center text-base md:text-lg font-semibold text-[var(--text-secondary)]">
               Add Challenge
             </h2>
@@ -269,14 +269,14 @@ export default function AddQuestionsAndChallenge({
                 />
               </label>
             </div>
-          </div>
+          </div> */}
 
           {/* Finish Button */}
           <div className="flex justify-end">
             <button
               type="button"
               className="px-6 py-3 bg-[#72C347] hover:bg-[#72c347e2] text-white text-sm rounded-2xl font-semibold"
-              onClick={() => setAddQuestionsOpen(false)}
+              onClick={() => setIsAddIntroQuestionsOpen(false)}
             >
               Finish
             </button>

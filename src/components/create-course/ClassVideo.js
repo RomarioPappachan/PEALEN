@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import { LuPlus, LuX, LuTrash2 } from "react-icons/lu";
+
+import { LuX } from "react-icons/lu";
+import ClassVideoUploader from "./ClassVideoUploader";
+import ClassVideoPlayer from "./ClassVideoPlayer";
 
 export default function ClassVideo({ videoIndex, setIsAddClassVideoOpen }) {
-  const [isDragging, setIsDragging] = useState(false);
-  const [videoFile, setVideoFile] = useState(null);
-  const [videoURL, setVideoURL] = useState(null);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -68,58 +69,12 @@ export default function ClassVideo({ videoIndex, setIsAddClassVideoOpen }) {
         </div>
 
         {/* Upload Area */}
-        <div className="p-4 pb-4 flex justify-center items-center">
-          <label
-            htmlFor={`classVideo-${videoIndex}`}
-            className={`w-96 h-52 rounded-2xl border-2 flex justify-center items-center cursor-pointer overflow-hidden transition-colors ${
-              isDragging
-                ? "border-blue-500 bg-blue-50"
-                : "border-[var(--border-primary)] bg-white"
-            }`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-            {videoURL ? (
-              <video
-                src={videoURL}
-                controls
-                className="w-full h-full object-cover rounded-2xl"
-              />
-            ) : (
-              <div className="flex flex-col justify-center items-center">
-                <span className="text-2xl mb-1">
-                  <LuPlus />
-                </span>
-                <span className="font-medium text-gray-700">
-                  Upload Class Video
-                </span>
-              </div>
-            )}
-            <input
-              type="file"
-              accept="video/*"
-              id={`classVideo-${videoIndex}`}
-              hidden
-              onChange={handleChange}
-            />
-          </label>
-        </div>
+
+        {/* <ClassVideoUploader /> */}
+
+        <ClassVideoPlayer />
 
         {/* File Info + Remove Button */}
-        {videoFile && (
-          <div className="text-center text-sm text-gray-700 px-4 flex flex-col items-center gap-2">
-            <p className="truncate max-w-xs">{videoFile.name}</p>
-            <button
-              type="button"
-              onClick={removeVideo}
-              className="flex items-center gap-1 text-red-500 hover:underline"
-            >
-              <LuTrash2 className="text-base" />
-              Remove Video
-            </button>
-          </div>
-        )}
       </div>
     </div>,
     document.body
